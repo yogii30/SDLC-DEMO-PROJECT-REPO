@@ -1,0 +1,20 @@
+groups:
+  group-payments:
+    projects:
+    - payments-web
+    scopes:
+    - project:read
+    - skill:read
+    - agent:read
+  group-readers:
+    projects:
+    - payments-web
+    scopes:
+    - project:read
+  group-billing:
+    projects:
+    - billing-portal
+    scopes:
+    - project:read
+    - skill:read
+    - agent:read

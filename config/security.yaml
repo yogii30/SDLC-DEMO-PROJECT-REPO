@@ -1,0 +1,7 @@
+providers:
+- name: demo-idp
+  issuer: http://localhost/demo-idp/v2.0
+  audience: api://sdlc-platform
+  subject_claim: oid
+  token_id_claim: uti
+entitlements: entitlements.yaml

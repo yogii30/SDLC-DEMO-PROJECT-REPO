@@ -1,0 +1,7 @@
+# Where the demo's company skills come from. run_gateway.py fetches this branch from GitHub into
+# cache/skills on every start, and the platform serves the skills at that commit.
+#
+# To demo another branch: change `branch`, restart run_gateway.py. The branch's skills need the
+# spec 003 frontmatter (kind: skill, version, applies_to, status), or the platform skips them.
+repository: https://github.com/MsTechmentTechnology/AI-Assisted-Development-Agents
+branch: platform-skill-metadata

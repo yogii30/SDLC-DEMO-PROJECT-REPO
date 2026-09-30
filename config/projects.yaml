@@ -1,0 +1,7 @@
+projects:
+  payments-web:
+    repository: https://github.com/techment-demo/payments-web
+    working_copy: ../repos/payments-web
+  billing-portal:
+    repository: https://github.com/techment-demo/billing-portal
+    working_copy: ../repos/billing-portal

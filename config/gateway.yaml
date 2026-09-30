@@ -1,0 +1,10 @@
+name: sdlc-platform
+version: 0.1.0
+security: security.yaml
+policy_dir: policy
+projects: projects.yaml
+skills:
+  repository: https://github.com/MsTechmentTechnology/AI-Assisted-Development-Agents
+  working_copy: ../cache/skills
+agents:
+  directory: ../repos/platform-agents/agents

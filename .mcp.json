@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "sdlc-platform": {
+      "type": "http",
+      "url": "http://127.0.0.1:8765/mcp",
+      "headers": {
+        "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImRlbW8tcnNhLTEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0L2RlbW8taWRwL3YyLjAiLCJhdWQiOiJhcGk6Ly9zZGxjLXBsYXRmb3JtIiwic3ViIjoiYWxpY2Utc3ViIiwib2lkIjoiYWxpY2Utb2lkIiwibmFtZSI6IkFsaWNlIiwidXRpIjoiZjk3NDVkMWItYjlmYy00ZTQ3LWIyZmUtOTIwODdkY2Y1MjA4IiwianRpIjoiZjZiY2ZkMTEtODc5OS00MzM4LWJiZjktNjUwYjU1YWU2NmM1IiwiaWF0IjoxNzkwNzU3NDI1LCJuYmYiOjE3OTA3NTc0MjUsImV4cCI6MTc5MDc2MTAyNSwic2NwIjoiYWNjZXNzIiwiYXpwIjoiY2xhdWRlLWNvZGUtZGVtbyIsImdyb3VwcyI6WyJncm91cC1wYXltZW50cyJdfQ.gf4day-4FIjZ7dEIii18inXy9y9lIn7l9F1bBGPBqjxtKn5BzTNnAlTEk1goYSJfV2UbUr-ims47spoBHE6EzixNLtxhwd-Yol3-UPq9C5d6hhJwUmOF0Z1Fh42MbMNXbMsGkMznby26nI7NkWHmmLgD0d-O3uUuwzOsGR4wl3a3kECnVtB9tdXAitAClFfTvTWphe__Jb9hrcroKji3HcSssCHAaFtPHcMmg3iQMP0CvryraRY_DbGqQWjjaDYWmNmkRsX6CPawGwP2sJi7jG73mmhhBeglTAkeqZy2dDCJu9v5slpvPqp_t5_EbuSBvyd9GbaWk9MhpQnNwaPgFA"
+      }
+    }
+  }
+}
