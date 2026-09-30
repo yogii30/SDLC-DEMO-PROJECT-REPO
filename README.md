@@ -11,6 +11,72 @@ serves it. The fetch is done by this demo script because the platform itself nev
 (spec 005 FR-020); a platform-managed workspace is spec 010, still in specification.
 `python setup_demo.py --sample-skills` uses a local sample instead (no GitHub needed).
 
+## First-time setup (for teammates)
+
+You need Python 3.12+, git, and access to the two private repositories
+(`MsTechmentTechnology/AI-Assisted-SDLC-platform` and `MsTechmentTechnology/AI-Assisted-Development-Agents`).
+
+```powershell
+# 1. The platform (the demo imports its code; any location works)
+git clone https://github.com/MsTechmentTechnology/AI-Assisted-SDLC-platform.git
+cd AI-Assisted-SDLC-platform
+git checkout release_candidate-sdd
+python -m venv .venv
+.venv\Scripts\activate
+pip install -e ".\sdlc-agent-platform[dev]"
+
+# 2. This demo (same virtual environment)
+cd ..
+git clone https://github.com/yogii30/SDLC-DEMO-PROJECT-REPO.git sdlc-platform-demo
+cd sdlc-platform-demo
+pip install -r requirements.txt
+python -c "import app; print(app.__file__)"   # must point into AI-Assisted-SDLC-platform
+
+# 3. Your own key, sample repositories and configuration
+python setup_demo.py
+```
+
+`keys/`, `config/`, `repos/`, `cache/` and `.mcp.json` are **generated on your machine** and never
+committed (see `.gitignore`). Each person gets their own login key. The paths below use
+`D:\office_work\…` as an example; use wherever you cloned the two repositories.
+
+## Instructions
+
+### Every time you run the demo
+
+```powershell
+# Terminal 1: keep it open (this is the audit log)
+python run_gateway.py
+
+# Terminal 2
+python demo_check.py        # expect: 13 / 13 checks passed
+python connect_claude.py    # fresh login token, valid 1 hour
+```
+
+Then open Claude Code **in this folder**, approve the `sdlc-platform` server, and check `/mcp`
+shows it connected. Always name the project in prompts, e.g. *"Get the project context for
+payments-web."*
+
+### Documentation
+
+| Guide | What it covers |
+|---|---|
+| [docs/DEMO_GUIDE.md](docs/DEMO_GUIDE.md) | Step-by-step demo: preparation, the 8 demo steps with prompts and talking points, troubleshooting |
+| [docs/TEAM_QA_PREP.md](docs/TEAM_QA_PREP.md) | Questions an AI-expert audience will ask, with honest answers; what is and isn't hardcoded |
+| [docs/HOW_THE_FOLDERS_CONNECT.md](docs/HOW_THE_FOLDERS_CONNECT.md) | How this folder uses the platform code and the GitHub skills, and how to prove it live |
+
+### Rules for this repository
+
+- **Never commit** `keys/`, `.mcp.json`, `config/`, `repos/` or `cache/`. They're generated and
+  personal, and `.gitignore` already excludes them.
+- **Never change the platform code for the demo.** The demo imports it unchanged from
+  `AI-Assisted-SDLC-platform`. Platform changes go through that repository's spec-driven PRs.
+- **To change the skills,** push to the `platform-skill-metadata` branch of
+  `AI-Assisted-Development-Agents` and restart `run_gateway.py`. To demo another branch, change
+  `skills_source.yaml`.
+- **If you cloned before `.gitignore` existed,** run `python setup_demo.py` once. It creates your
+  own new login key, so the key in the first commit is no longer used.
+
 ## What's in this folder
 
 | File | Purpose |
