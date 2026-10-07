@@ -102,6 +102,11 @@ describe('LoginPage', () => {
     const user = userEvent.setup();
     const fetchSpy = vi.spyOn(globalThis, 'fetch');
     const href = window.location.href;
+    // jsdom never navigates, so assert the browser's default submit action is cancelled.
+    // React's handler runs on the root, before this document-level bubble listener.
+    const submits: SubmitEvent[] = [];
+    const onSubmit = (event: Event) => submits.push(event as SubmitEvent);
+    document.addEventListener('submit', onSubmit);
     render(<App />);
 
     await user.type(screen.getByLabelText('Email or Username'), 'ada@example.com');
@@ -117,6 +122,10 @@ describe('LoginPage', () => {
     }
     await user.type(screen.getByLabelText('Password'), '{Enter}');
 
+    document.removeEventListener('submit', onSubmit);
+
+    expect(submits).toHaveLength(2); // Sign In click and Enter in the password field
+    expect(submits.every((event) => event.defaultPrevented)).toBe(true);
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(window.location.href).toBe(href);
     expect(screen.getByLabelText('Email or Username')).toHaveValue('ada@example.com');
