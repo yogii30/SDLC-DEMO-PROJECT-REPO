@@ -1,0 +1,11 @@
+api_version: platform/v1
+kind: project
+project: payments-web
+owner:
+  team: payments
+lifecycle: greenfield
+source_of_truth:
+  jira:
+    project_key: SDLC
+declared:
+  base_branch: sdlc-demo-greenfield
