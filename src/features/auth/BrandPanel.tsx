@@ -122,7 +122,7 @@ export function BrandPanel() {
 
       <div className="relative max-w-md">
         <h1 id="brand-heading" className="text-3xl font-semibold tracking-tight lg:text-4xl">
-          Welcome Back!
+          Welcome back!
         </h1>
         <p className="mt-3 text-base text-brand-100 lg:text-lg">
           Sign in to continue to your workspace.

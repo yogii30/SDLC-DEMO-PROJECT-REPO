@@ -4,7 +4,7 @@ import '../../index.css';
 import { LoginPage } from './LoginPage';
 
 // Real-browser checks for what jsdom cannot measure: visible focus (AC12),
-// the rendered Sign In states (AC8) and text contrast (WCAG 1.4.3).
+// the rendered Sign in states (AC8) and text contrast (WCAG 1.4.3).
 
 /** Resolve any CSS colour (including oklch) to sRGB by painting it. */
 function toRgb(color: string): [number, number, number, number] {
@@ -54,11 +54,11 @@ const controls = () => [
   screen.getByLabelText('Password'),
   screen.getByRole('button', { name: 'Show password' }),
   screen.getByRole('checkbox', { name: 'Remember me' }),
-  screen.getByRole('button', { name: 'Forgot Password?' }),
-  screen.getByRole('button', { name: 'Sign In' }),
+  screen.getByRole('button', { name: 'Forgot password?' }),
+  screen.getByRole('button', { name: 'Sign in' }),
   screen.getByRole('button', { name: 'Continue with Google' }),
   screen.getByRole('button', { name: 'Continue with Microsoft' }),
-  screen.getByRole('button', { name: 'Sign Up' }),
+  screen.getByRole('button', { name: 'Sign up' }),
 ];
 
 let noTransitions: HTMLStyleElement;
@@ -123,9 +123,9 @@ describe('LoginForm accessibility (real browser)', () => {
     expect(focusStyle(checkbox).outlineVisible).toBe(true);
   });
 
-  it('AC8: Sign In default, hover, keyboard-focus and disabled styles are visibly distinct', async () => {
+  it('AC8: Sign in default, hover, keyboard-focus and disabled styles are visibly distinct', async () => {
     const { unmount } = render(<LoginPage />);
-    const signIn = screen.getByRole('button', { name: 'Sign In' });
+    const signIn = screen.getByRole('button', { name: 'Sign in' });
     const background = () => getComputedStyle(signIn).backgroundColor;
 
     const idle = background();
@@ -141,7 +141,7 @@ describe('LoginForm accessibility (real browser)', () => {
     unmount();
 
     render(<LoginPage disabled />);
-    const disabled = getComputedStyle(screen.getByRole('button', { name: 'Sign In' }));
+    const disabled = getComputedStyle(screen.getByRole('button', { name: 'Sign in' }));
     expect(disabled.backgroundColor).not.toBe(idle);
     expect(disabled.backgroundColor).not.toBe(hovered);
     expect(disabled.cursor).toBe('not-allowed');
@@ -161,11 +161,11 @@ describe('LoginForm accessibility (real browser)', () => {
     }
   });
 
-  it('AC7/AC10: Forgot Password? and Sign Up look like links and underline on hover', async () => {
+  it('AC7/AC10: Forgot password? and Sign up look like links and underline on hover', async () => {
     render(<LoginPage />);
     const body = getComputedStyle(screen.getByText(/Don't have an account\?/)).color;
 
-    for (const name of ['Forgot Password?', 'Sign Up']) {
+    for (const name of ['Forgot password?', 'Sign up']) {
       const link = screen.getByRole('button', { name });
       const style = () => getComputedStyle(link);
 
