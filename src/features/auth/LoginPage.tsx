@@ -18,7 +18,7 @@ export function LoginPage(props: LoginFormProps) {
               </span>
             </div>
             <h1 className="mt-5 text-2xl font-semibold tracking-tight text-slate-900">
-              Welcome Back!
+              Welcome back!
             </h1>
             <p className="mt-1.5 text-sm text-slate-600">Sign in to continue to your workspace.</p>
           </div>

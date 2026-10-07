@@ -64,12 +64,12 @@ export function LoginForm({ disabled = false, errors = {} }: LoginFormProps) {
             Remember me
           </label>
           <button type="button" disabled={disabled} className={`text-sm ${linkClasses}`}>
-            Forgot Password?
+            Forgot password?
           </button>
         </div>
 
         <Button type="submit" disabled={disabled}>
-          Sign In
+          Sign in
         </Button>
       </form>
 
@@ -91,7 +91,7 @@ export function LoginForm({ disabled = false, errors = {} }: LoginFormProps) {
       <p className="mt-8 text-center text-sm text-slate-600">
         Don&apos;t have an account?{' '}
         <button type="button" disabled={disabled} className={linkClasses}>
-          Sign Up
+          Sign up
         </button>
       </p>
     </div>

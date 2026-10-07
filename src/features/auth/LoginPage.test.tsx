@@ -7,9 +7,9 @@ describe('LoginPage', () => {
   it('renders the branding content', () => {
     render(<LoginPage />);
 
-    expect(screen.getAllByRole('heading', { level: 1, name: 'Welcome Back!' })).not.toHaveLength(0);
+    expect(screen.getAllByRole('heading', { level: 1, name: 'Welcome back!' })).not.toHaveLength(0);
     expect(screen.getAllByText('Sign in to continue to your workspace.')).not.toHaveLength(0);
-    expect(screen.getByRole('region', { name: 'Welcome Back!' })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Welcome back!' })).toBeInTheDocument();
   });
 
   it('renders the fields with the specified labels and placeholders', () => {
@@ -27,8 +27,8 @@ describe('LoginPage', () => {
     render(<LoginPage />);
 
     expect(screen.getByRole('checkbox', { name: 'Remember me' })).not.toBeChecked();
-    expect(screen.getByRole('button', { name: 'Forgot Password?' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Sign In' })).toHaveAttribute('type', 'submit');
+    expect(screen.getByRole('button', { name: 'Forgot password?' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Sign in' })).toHaveAttribute('type', 'submit');
     expect(screen.getByRole('separator', { name: 'or' })).toHaveTextContent('OR');
     expect(screen.getByRole('button', { name: 'Continue with Google' })).toHaveAttribute(
       'type',
@@ -40,7 +40,7 @@ describe('LoginPage', () => {
     );
 
     const footer = screen.getByText(/Don't have an account\?/);
-    expect(within(footer).getByRole('button', { name: 'Sign Up' })).toBeInTheDocument();
+    expect(within(footer).getByRole('button', { name: 'Sign up' })).toBeInTheDocument();
   });
 
   it('toggles password visibility', async () => {
@@ -64,11 +64,11 @@ describe('LoginPage', () => {
     render(<LoginPage disabled />);
 
     for (const name of [
-      'Sign In',
-      'Forgot Password?',
+      'Sign in',
+      'Forgot password?',
       'Continue with Google',
       'Continue with Microsoft',
-      'Sign Up',
+      'Sign up',
       'Show password',
     ]) {
       expect(screen.getByRole('button', { name })).toBeDisabled();
@@ -86,11 +86,11 @@ describe('LoginPage', () => {
       screen.getByLabelText('Password'),
       screen.getByRole('button', { name: 'Show password' }),
       screen.getByRole('checkbox', { name: 'Remember me' }),
-      screen.getByRole('button', { name: 'Forgot Password?' }),
-      screen.getByRole('button', { name: 'Sign In' }),
+      screen.getByRole('button', { name: 'Forgot password?' }),
+      screen.getByRole('button', { name: 'Sign in' }),
       screen.getByRole('button', { name: 'Continue with Google' }),
       screen.getByRole('button', { name: 'Continue with Microsoft' }),
-      screen.getByRole('button', { name: 'Sign Up' }),
+      screen.getByRole('button', { name: 'Sign up' }),
     ];
     for (const element of expected) {
       await user.tab();
@@ -112,11 +112,11 @@ describe('LoginPage', () => {
     await user.type(screen.getByLabelText('Email or Username'), 'ada@example.com');
     await user.type(screen.getByLabelText('Password'), 'secret');
     for (const name of [
-      'Sign In',
-      'Forgot Password?',
+      'Sign in',
+      'Forgot password?',
       'Continue with Google',
       'Continue with Microsoft',
-      'Sign Up',
+      'Sign up',
     ]) {
       await user.click(screen.getByRole('button', { name }));
     }
@@ -124,7 +124,7 @@ describe('LoginPage', () => {
 
     document.removeEventListener('submit', onSubmit);
 
-    expect(submits).toHaveLength(2); // Sign In click and Enter in the password field
+    expect(submits).toHaveLength(2); // Sign in click and Enter in the password field
     expect(submits.every((event) => event.defaultPrevented)).toBe(true);
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(window.location.href).toBe(href);
