@@ -2,10 +2,19 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { playwright } from '@vitest/browser-playwright';
-import { defineConfig } from 'vite';
+import { existsSync, realpathSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { defineConfig, searchForWorkspaceRoot } from 'vite';
+
+// node_modules may be a symlink to an install outside the repository (pnpm, shared CI caches).
+// Vite resolves it to its real path, so allow that path or browser tests cannot load modules.
+const nodeModules = resolve(import.meta.dirname, 'node_modules');
+const fsAllow = [searchForWorkspaceRoot(import.meta.dirname)];
+if (existsSync(nodeModules)) fsAllow.push(realpathSync(nodeModules));
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  server: { fs: { allow: fsAllow } },
   test: {
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
