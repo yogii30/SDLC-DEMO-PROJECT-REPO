@@ -4,7 +4,7 @@ type Variant = 'primary' | 'secondary';
 
 const base =
   'inline-flex w-full items-center justify-center gap-2.5 rounded-lg px-4 py-2.5 text-sm font-semibold ' +
-  'transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 ' +
+  'transition-colors duration-150 focus-visible:outline-hidden focus-visible:ring-2 ' +
   'focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed';
 
 const variants: Record<Variant, string> = {

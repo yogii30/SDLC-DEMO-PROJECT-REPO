@@ -18,7 +18,7 @@ export interface LoginFormProps {
 
 const linkClasses =
   'rounded-sm font-medium text-brand-600 underline-offset-2 transition-colors hover:text-brand-700 ' +
-  'hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 ' +
+  'hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500 ' +
   'focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:text-slate-400';
 
 // UI only (SDLC-39): submitting, signing in and every link are intentionally inert.
@@ -59,7 +59,7 @@ export function LoginForm({ disabled = false, errors = {} }: LoginFormProps) {
               type="checkbox"
               name="remember"
               disabled={disabled}
-              className="size-4 cursor-pointer rounded border-slate-300 accent-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed"
+              className="size-4 cursor-pointer accent-brand-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 disabled:cursor-not-allowed"
             />
             Remember me
           </label>
@@ -75,7 +75,7 @@ export function LoginForm({ disabled = false, errors = {} }: LoginFormProps) {
 
       <div className="my-6 flex items-center gap-3" role="separator" aria-label="or">
         <span className="h-px flex-1 bg-slate-200" />
-        <span className="text-xs font-medium tracking-wider text-slate-400 uppercase">OR</span>
+        <span className="text-xs font-medium tracking-wider text-slate-500 uppercase">OR</span>
         <span className="h-px flex-1 bg-slate-200" />
       </div>
 

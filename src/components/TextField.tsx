@@ -11,8 +11,8 @@ export interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElemen
 const inputClasses = (hasError: boolean, hasTrailing: boolean) =>
   [
     'block w-full rounded-lg border bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-xs',
-    'placeholder:text-slate-400 transition-colors duration-150',
-    'focus:outline-none focus:ring-2 focus:ring-offset-0',
+    'placeholder:text-slate-500 transition-colors duration-150',
+    'focus:outline-hidden focus:ring-2 focus:ring-offset-0',
     'disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500',
     hasTrailing ? 'pr-11' : '',
     hasError
@@ -23,6 +23,9 @@ const inputClasses = (hasError: boolean, hasTrailing: boolean) =>
 export function TextField({ id, label, error, trailing, className, ...rest }: TextFieldProps) {
   const errorId = `${id}-error`;
   const hasError = Boolean(error);
+  const { 'aria-describedby': describedBy, 'aria-invalid': ariaInvalid, ...inputProps } = rest;
+  // Keep a caller's description, but never let it drop the link to the error message.
+  const describedByIds = [describedBy, hasError ? errorId : undefined].filter(Boolean).join(' ');
 
   return (
     <div className={className}>
@@ -31,11 +34,11 @@ export function TextField({ id, label, error, trailing, className, ...rest }: Te
       </label>
       <div className="relative">
         <input
+          {...inputProps}
           id={id}
-          aria-invalid={hasError || undefined}
-          aria-describedby={hasError ? errorId : undefined}
+          aria-invalid={hasError || ariaInvalid || undefined}
+          aria-describedby={describedByIds || undefined}
           className={inputClasses(hasError, Boolean(trailing))}
-          {...rest}
         />
         {trailing && (
           <div className="absolute inset-y-0 right-0 flex items-center pr-1.5">{trailing}</div>
