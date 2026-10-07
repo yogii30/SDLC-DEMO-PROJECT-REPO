@@ -129,13 +129,15 @@ describe('LoginForm accessibility (real browser)', () => {
     const background = () => getComputedStyle(signIn).backgroundColor;
 
     const idle = background();
+    const idleShadow = getComputedStyle(signIn).boxShadow;
     await userEvent.hover(signIn);
     const hovered = background();
     expect(hovered).not.toBe(idle);
     await userEvent.unhover(signIn);
 
     while (document.activeElement !== signIn) await userEvent.tab();
-    expect(getComputedStyle(signIn).boxShadow).not.toBe('none');
+    // The button has a resting shadow, so the focus ring must change it, not merely exist.
+    expect(getComputedStyle(signIn).boxShadow).not.toBe(idleShadow);
     unmount();
 
     render(<LoginPage disabled />);
@@ -156,6 +158,23 @@ describe('LoginForm accessibility (real browser)', () => {
     for (const label of ['Email or Username', 'Password']) {
       const placeholder = getComputedStyle(screen.getByLabelText(label), '::placeholder').color;
       expect(contrast(placeholder, 'rgb(255, 255, 255)')).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  it('AC7/AC10: Forgot Password? and Sign Up look like links and underline on hover', async () => {
+    render(<LoginPage />);
+    const body = getComputedStyle(screen.getByText(/Don't have an account\?/)).color;
+
+    for (const name of ['Forgot Password?', 'Sign Up']) {
+      const link = screen.getByRole('button', { name });
+      const style = () => getComputedStyle(link);
+
+      expect(style().backgroundColor).toBe('rgba(0, 0, 0, 0)');
+      expect(style().color).not.toBe(body);
+      expect(style().textDecorationLine).toBe('none');
+      await userEvent.hover(link);
+      expect(style().textDecorationLine).toBe('underline');
+      await userEvent.unhover(link);
     }
   });
 });
