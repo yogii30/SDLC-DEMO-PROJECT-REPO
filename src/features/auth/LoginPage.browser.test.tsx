@@ -53,6 +53,10 @@ describe('LoginPage layout (real browser)', () => {
     expect(mainBox.left).toBeCloseTo(brandBox.right, 0);
     expect(card.getBoundingClientRect().left).toBeGreaterThan(brandBox.right);
 
+    const logo = brand.querySelector<SVGElement>('svg[viewBox="0 0 32 32"]')!;
+    expect(logo.getBoundingClientRect().width).toBeGreaterThan(0);
+    expect(brand).toHaveTextContent('Payments');
+
     expect(px(getComputedStyle(brand).paddingLeft)).toBe(56);
     expect(illustration.getBoundingClientRect().width).toBe(320);
     expect(getComputedStyle(brand).backgroundImage).toContain('linear-gradient');

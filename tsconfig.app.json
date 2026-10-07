@@ -6,7 +6,12 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
-    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"],
+    "types": [
+      "vite/client",
+      "vitest/globals",
+      "@testing-library/jest-dom",
+      "@vitest/browser-playwright"
+    ],
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

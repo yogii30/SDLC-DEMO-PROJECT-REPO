@@ -4,10 +4,15 @@ import react from '@vitejs/plugin-react';
 import { playwright } from '@vitest/browser-playwright';
 import { existsSync, realpathSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { chromium } from 'playwright';
 import { defineConfig, searchForWorkspaceRoot } from 'vite';
 
 // node_modules may be a symlink to an install outside the repository (pnpm, shared CI caches).
 // Vite resolves it to its real path, so allow that path or browser tests cannot load modules.
+// Prefer Playwright's bundled Chromium (`npx playwright install chromium`); fall back to an
+// installed Google Chrome so the browser tests run without a browser download.
+const browserChannel = existsSync(chromium.executablePath()) ? undefined : 'chrome';
+
 const nodeModules = resolve(import.meta.dirname, 'node_modules');
 const fsAllow = [searchForWorkspaceRoot(import.meta.dirname)];
 if (existsSync(nodeModules)) fsAllow.push(realpathSync(nodeModules));
@@ -36,7 +41,6 @@ export default defineConfig({
       },
       {
         // Layout and visual criteria need a real rendering engine and the real Tailwind CSS.
-        // Uses the locally installed Chrome, so no Playwright browser download is needed.
         extends: true,
         test: {
           name: 'browser',
@@ -44,7 +48,7 @@ export default defineConfig({
           browser: {
             enabled: true,
             headless: true,
-            provider: playwright({ launchOptions: { channel: 'chrome' } }),
+            provider: playwright({ launchOptions: { channel: browserChannel } }),
             instances: [{ browser: 'chromium' }],
           },
         },

@@ -22,4 +22,18 @@ describe('TextField', () => {
     expect(input).toHaveAccessibleDescription('Enter a valid email');
     expect(input.className).toContain('border-red-500');
   });
+
+  it('keeps a caller description and still links the error message', () => {
+    render(
+      <>
+        <p id="hint">Use your work email</p>
+        <TextField id="email" label="Email" aria-describedby="hint" error="Enter a valid email" />
+      </>,
+    );
+    const input = screen.getByLabelText('Email');
+
+    expect(input).toHaveAttribute('aria-describedby', 'hint email-error');
+    expect(input).toHaveAccessibleDescription('Use your work email Enter a valid email');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+  });
 });
