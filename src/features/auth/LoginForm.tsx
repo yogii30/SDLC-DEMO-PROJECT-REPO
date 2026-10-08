@@ -36,7 +36,7 @@ export function LoginForm({ disabled = false, errors = {} }: LoginFormProps) {
         <TextField
           id="identifier"
           name="identifier"
-          label="Email or Username"
+          label="Email or username"
           placeholder="Enter your email or username"
           autoComplete="username"
           disabled={disabled}

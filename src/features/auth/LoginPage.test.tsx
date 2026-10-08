@@ -15,7 +15,7 @@ describe('LoginPage', () => {
   it('renders the fields with the specified labels and placeholders', () => {
     render(<LoginPage />);
 
-    expect(screen.getByLabelText('Email or Username')).toHaveAttribute(
+    expect(screen.getByLabelText('Email or username')).toHaveAttribute(
       'placeholder',
       'Enter your email or username',
     );
@@ -54,7 +54,7 @@ describe('LoginPage', () => {
   it('shows field errors on demand', () => {
     render(<LoginPage errors={{ identifier: 'Enter your email', password: 'Enter a password' }} />);
 
-    expect(screen.getByLabelText('Email or Username')).toHaveAccessibleDescription(
+    expect(screen.getByLabelText('Email or username')).toHaveAccessibleDescription(
       'Enter your email',
     );
     expect(screen.getByLabelText('Password')).toHaveAccessibleDescription('Enter a password');
@@ -73,7 +73,7 @@ describe('LoginPage', () => {
     ]) {
       expect(screen.getByRole('button', { name })).toBeDisabled();
     }
-    expect(screen.getByLabelText('Email or Username')).toBeDisabled();
+    expect(screen.getByLabelText('Email or username')).toBeDisabled();
     expect(screen.getByRole('checkbox', { name: 'Remember me' })).toBeDisabled();
   });
 
@@ -82,7 +82,7 @@ describe('LoginPage', () => {
     render(<LoginPage />);
 
     const expected = [
-      screen.getByLabelText('Email or Username'),
+      screen.getByLabelText('Email or username'),
       screen.getByLabelText('Password'),
       screen.getByRole('button', { name: 'Show password' }),
       screen.getByRole('checkbox', { name: 'Remember me' }),
@@ -109,7 +109,7 @@ describe('LoginPage', () => {
     document.addEventListener('submit', onSubmit);
     render(<App />);
 
-    await user.type(screen.getByLabelText('Email or Username'), 'ada@example.com');
+    await user.type(screen.getByLabelText('Email or username'), 'ada@example.com');
     await user.type(screen.getByLabelText('Password'), 'secret');
     for (const name of [
       'Sign in',
@@ -128,7 +128,7 @@ describe('LoginPage', () => {
     expect(submits.every((event) => event.defaultPrevented)).toBe(true);
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(window.location.href).toBe(href);
-    expect(screen.getByLabelText('Email or Username')).toHaveValue('ada@example.com');
+    expect(screen.getByLabelText('Email or username')).toHaveValue('ada@example.com');
     fetchSpy.mockRestore();
   });
 });
