@@ -1,6 +1,6 @@
 import type { FormEvent } from 'react';
 import { Button } from '../../components/Button';
-import { GoogleIcon, MicrosoftIcon } from '../../components/icons';
+import { MicrosoftIcon } from '../../components/icons';
 import { PasswordField } from '../../components/PasswordField';
 import { TextField } from '../../components/TextField';
 
@@ -80,9 +80,6 @@ export function LoginForm({ disabled = false, errors = {} }: LoginFormProps) {
       </div>
 
       <div className="space-y-3">
-        <Button variant="secondary" disabled={disabled} icon={<GoogleIcon className="size-5" />}>
-          Continue with Google
-        </Button>
         <Button variant="secondary" disabled={disabled} icon={<MicrosoftIcon className="size-5" />}>
           Continue with Microsoft
         </Button>

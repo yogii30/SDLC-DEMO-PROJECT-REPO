@@ -30,10 +30,6 @@ describe('LoginPage', () => {
     expect(screen.getByRole('button', { name: 'Forgot password?' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Sign in' })).toHaveAttribute('type', 'submit');
     expect(screen.getByRole('separator', { name: 'or' })).toHaveTextContent('OR');
-    expect(screen.getByRole('button', { name: 'Continue with Google' })).toHaveAttribute(
-      'type',
-      'button',
-    );
     expect(screen.getByRole('button', { name: 'Continue with Microsoft' })).toHaveAttribute(
       'type',
       'button',
@@ -41,6 +37,20 @@ describe('LoginPage', () => {
 
     const footer = screen.getByText(/Don't have an account\?/);
     expect(within(footer).getByRole('button', { name: 'Sign up' })).toBeInTheDocument();
+  });
+
+  it('offers no Google login (SDLC-44)', () => {
+    render(<LoginPage />);
+
+    expect(screen.queryByRole('button', { name: 'Continue with Google' })).not.toBeInTheDocument();
+    expect(screen.queryByText(/Google/)).not.toBeInTheDocument();
+  });
+
+  it('shows Microsoft as the only social login option (SDLC-44)', () => {
+    render(<LoginPage />);
+
+    const social = screen.getByRole('button', { name: 'Continue with Microsoft' }).parentElement!;
+    expect(within(social).getAllByRole('button')).toHaveLength(1);
   });
 
   it('toggles password visibility', async () => {
@@ -66,7 +76,6 @@ describe('LoginPage', () => {
     for (const name of [
       'Sign in',
       'Forgot password?',
-      'Continue with Google',
       'Continue with Microsoft',
       'Sign up',
       'Show password',
@@ -88,7 +97,6 @@ describe('LoginPage', () => {
       screen.getByRole('checkbox', { name: 'Remember me' }),
       screen.getByRole('button', { name: 'Forgot password?' }),
       screen.getByRole('button', { name: 'Sign in' }),
-      screen.getByRole('button', { name: 'Continue with Google' }),
       screen.getByRole('button', { name: 'Continue with Microsoft' }),
       screen.getByRole('button', { name: 'Sign up' }),
     ];
@@ -111,13 +119,7 @@ describe('LoginPage', () => {
 
     await user.type(screen.getByLabelText('Email or username'), 'ada@example.com');
     await user.type(screen.getByLabelText('Password'), 'secret');
-    for (const name of [
-      'Sign in',
-      'Forgot password?',
-      'Continue with Google',
-      'Continue with Microsoft',
-      'Sign up',
-    ]) {
+    for (const name of ['Sign in', 'Forgot password?', 'Continue with Microsoft', 'Sign up']) {
       await user.click(screen.getByRole('button', { name }));
     }
     await user.type(screen.getByLabelText('Password'), '{Enter}');
