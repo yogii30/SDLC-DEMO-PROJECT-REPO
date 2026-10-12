@@ -1,11 +1,20 @@
+# PROJECT.yaml, drafted by `sdlc init`. Correct anything that is wrong, then save.
+#
+# Inferred from the repository at ebfd52c9dc58. The platform infers these again
+# on every resolve; add a value under `declared:` only to override one.
+#   base_branch: sdlc-demo-greenfield   <- git:refs/remotes/origin/HEAD
+#   databases: (none found)
+#   frameworks: react   <- package.json
+#   languages: javascript, typescript   <- package.json, tsconfig.json
+#   repository_url: https://github.com/yogii30/sdlc-demo-project-repo   <- git:remote.origin.url
+#   source_paths: src   <- src/
+#   test_paths: src/test   <- src/test/
 api_version: platform/v1
 kind: project
-project: payments-web
+project: sdlc-demo-project-repo
 owner:
-  team: payments
-lifecycle: greenfield
+  team: shashi
+lifecycle: brownfield
 source_of_truth:
   jira:
     project_key: SDLC
-declared:
-  base_branch: sdlc-demo-greenfield
