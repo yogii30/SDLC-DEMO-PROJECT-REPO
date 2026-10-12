@@ -46,6 +46,13 @@ describe('LoginPage', () => {
     expect(screen.queryByText(/Google/)).not.toBeInTheDocument();
   });
 
+  it('shows Microsoft as the only social login option (SDLC-44)', () => {
+    render(<LoginPage />);
+
+    const social = screen.getByRole('button', { name: 'Continue with Microsoft' }).parentElement!;
+    expect(within(social).getAllByRole('button')).toHaveLength(1);
+  });
+
   it('toggles password visibility', async () => {
     const user = userEvent.setup();
     render(<LoginPage />);
