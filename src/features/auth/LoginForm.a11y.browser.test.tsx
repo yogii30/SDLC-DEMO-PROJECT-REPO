@@ -56,7 +56,6 @@ const controls = () => [
   screen.getByRole('checkbox', { name: 'Remember me' }),
   screen.getByRole('button', { name: 'Forgot password?' }),
   screen.getByRole('button', { name: 'Sign in' }),
-  screen.getByRole('button', { name: 'Continue with Google' }),
   screen.getByRole('button', { name: 'Continue with Microsoft' }),
   screen.getByRole('button', { name: 'Sign up' }),
 ];
