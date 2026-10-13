@@ -11,6 +11,15 @@ describe('LoginPage', () => {
     expect(screen.getAllByText('Payments')).not.toHaveLength(0);
   });
 
+  it('shows no welcome heading or subtitle (SDLC-45)', () => {
+    render(<LoginPage />);
+
+    expect(screen.queryByText('Welcome back!')).not.toBeInTheDocument();
+    expect(screen.queryByText('Sign in to continue to your workspace.')).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument();
+    expect(screen.getByRole('form', { name: 'Sign in' })).toBeInTheDocument();
+  });
+
   it('renders the fields with the specified labels and placeholders', () => {
     render(<LoginPage />);
 

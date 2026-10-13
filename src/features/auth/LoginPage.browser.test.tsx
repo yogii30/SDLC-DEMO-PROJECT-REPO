@@ -127,4 +127,31 @@ describe('LoginPage layout (real browser)', () => {
     expect(pageBackground).not.toBe('rgb(255, 255, 255)');
     expect(lightness(pageBackground)).toBeGreaterThan(0.9);
   });
+
+  it('SDLC-45: desktop shows no welcome text and leaves no gap below the illustration', async () => {
+    await page.viewport(1280, 800);
+    render(<LoginPage />);
+    const { brand, illustration } = layout();
+
+    expect(brand).not.toHaveTextContent('Welcome back!');
+    expect(brand).not.toHaveTextContent('Sign in to continue to your workspace.');
+    expect(brand).toHaveTextContent('Payments');
+
+    // The illustration's block is the panel's last child and fills the space the text used.
+    const block = illustration.parentElement!;
+    expect(brand.lastElementChild).toBe(block);
+    const gap = brand.getBoundingClientRect().bottom - block.getBoundingClientRect().bottom;
+    expect(gap).toBeCloseTo(px(getComputedStyle(brand).paddingBottom), 0);
+  });
+
+  it('SDLC-45: mobile header keeps only the logo, directly above the card', async () => {
+    await page.viewport(375, 812);
+    render(<LoginPage />);
+    const { mobileHeader, card } = layout();
+
+    expect(mobileHeader.textContent?.trim()).toBe('Payments');
+    expect(mobileHeader.querySelector('h1, p')).toBeNull();
+    const gap = card.getBoundingClientRect().top - mobileHeader.getBoundingClientRect().bottom;
+    expect(gap).toBe(32);
+  });
 });
