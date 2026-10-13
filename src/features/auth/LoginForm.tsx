@@ -47,7 +47,7 @@ export function LoginForm({ disabled = false, errors = {} }: LoginFormProps) {
           id="password"
           name="password"
           label="Password"
-          placeholder="Enter your password"
+          placeholder="Password"
           autoComplete="current-password"
           disabled={disabled}
           error={errors.password}

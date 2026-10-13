@@ -19,7 +19,7 @@ describe('LoginPage', () => {
       'placeholder',
       'Enter your email or username',
     );
-    expect(screen.getByLabelText('Password')).toHaveAttribute('placeholder', 'Enter your password');
+    expect(screen.getByLabelText('Password')).toHaveAttribute('placeholder', 'Password');
     expect(screen.getByLabelText('Password')).toHaveAttribute('type', 'password');
   });
 
