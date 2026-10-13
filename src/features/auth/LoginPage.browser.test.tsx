@@ -9,8 +9,8 @@ import { LoginPage } from './LoginPage';
 const px = (value: string) => Number.parseFloat(value);
 
 function layout() {
-  // Hidden below md, where it also loses its accessible name, so find it by its label reference.
-  const brand = document.querySelector<HTMLElement>('section[aria-labelledby="brand-heading"]')!;
+  // Hidden below md, where it also loses its accessible name, so find it by its label attribute.
+  const brand = document.querySelector<HTMLElement>('section[aria-label="Payments"]')!;
   const main = screen.getByRole('main');
   const form = screen.getByRole('form', { name: 'Sign in' });
   const card = form.parentElement!;

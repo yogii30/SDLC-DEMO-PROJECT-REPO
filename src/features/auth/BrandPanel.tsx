@@ -99,7 +99,7 @@ function NetworkIllustration({ className }: { className?: string }) {
 export function BrandPanel() {
   return (
     <section
-      aria-labelledby="brand-heading"
+      aria-label={APP_NAME}
       className="relative hidden overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-brand-950 text-white md:flex md:flex-col md:justify-between md:p-10 lg:p-14"
     >
       <div
@@ -118,15 +118,6 @@ export function BrandPanel() {
 
       <div className="relative flex flex-1 items-center justify-center py-8">
         <NetworkIllustration className="w-56 lg:w-80" />
-      </div>
-
-      <div className="relative max-w-md">
-        <h1 id="brand-heading" className="text-3xl font-semibold tracking-tight lg:text-4xl">
-          Welcome back!
-        </h1>
-        <p className="mt-3 text-base text-brand-100 lg:text-lg">
-          Sign in to continue to your workspace.
-        </p>
       </div>
     </section>
   );
