@@ -30,4 +30,24 @@ describe('Button', () => {
     expect(screen.getByRole('button', { name: 'Next' }).className).toContain('border-slate-300');
     expect(screen.getByTestId('icon')).toBeInTheDocument();
   });
+
+  it('shows a busy, disabled state with a spinner while loading', () => {
+    render(
+      <Button loading icon={<svg data-testid="icon" />}>
+        Saving…
+      </Button>,
+    );
+    const button = screen.getByRole('button', { name: 'Saving…' });
+
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute('aria-busy', 'true');
+    expect(button.querySelector('svg.animate-spin')).toBeInTheDocument();
+    expect(screen.queryByTestId('icon')).not.toBeInTheDocument();
+  });
+
+  it('is not busy by default', () => {
+    render(<Button>Go</Button>);
+
+    expect(screen.getByRole('button', { name: 'Go' })).not.toHaveAttribute('aria-busy');
+  });
 });
