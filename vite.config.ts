@@ -25,14 +25,24 @@ async function browserProvider() {
 
 export default defineConfig(async (): Promise<UserConfig> => ({
   plugins: [react(), tailwindcss()],
-  server: { fs: { allow: fsAllow } },
+  server: {
+    fs: { allow: fsAllow },
+    // `npm run dev:api` serves the login API; the dev server forwards /api to it.
+    proxy: { '/api': process.env.API_URL ?? 'http://localhost:3001' },
+  },
   test: {
     globals: true,
     setupFiles: ['./src/test/setup.ts'],
     coverage: {
       provider: 'v8',
-      include: ['src/**/*.{ts,tsx}'],
-      exclude: ['src/main.tsx', 'src/test/**', 'src/**/*.test.{ts,tsx}'],
+      include: ['src/**/*.{ts,tsx}', 'backend/**/*.ts'],
+      exclude: [
+        'src/main.tsx',
+        'src/test/**',
+        'src/**/*.test.{ts,tsx}',
+        'backend/server.ts',
+        'backend/**/*.test.ts',
+      ],
     },
     projects: process.env.VITEST
       ? [
@@ -44,6 +54,15 @@ export default defineConfig(async (): Promise<UserConfig> => ({
               css: false,
               include: ['src/**/*.test.{ts,tsx}'],
               exclude: ['src/**/*.browser.test.{ts,tsx}'],
+            },
+          },
+          {
+            // The login API (SDLC-47), exercised over real HTTP.
+            extends: true,
+            test: {
+              name: 'api',
+              environment: 'node',
+              include: ['backend/**/*.test.ts'],
             },
           },
           {
