@@ -5,7 +5,8 @@ type Variant = 'primary' | 'secondary';
 const base =
   'inline-flex w-full items-center justify-center gap-2.5 rounded-lg px-4 py-2.5 text-sm font-semibold ' +
   'transition-colors duration-150 focus-visible:outline-hidden focus-visible:ring-2 ' +
-  'focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed';
+  'focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed ' +
+  'aria-busy:cursor-wait';
 
 const variants: Record<Variant, string> = {
   primary:
@@ -19,13 +20,26 @@ const variants: Record<Variant, string> = {
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   icon?: ReactNode;
+  /** Shows a spinner and disables the button while an action is in progress. */
+  loading?: boolean;
+}
+
+function Spinner() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="size-4 animate-spin" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeOpacity="0.25" strokeWidth="3" />
+      <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  );
 }
 
 export function Button({
   variant = 'primary',
   icon,
+  loading = false,
   className,
   type = 'button',
+  disabled,
   children,
   ...rest
 }: ButtonProps) {
@@ -33,9 +47,11 @@ export function Button({
     <button
       type={type}
       className={[base, variants[variant], className].filter(Boolean).join(' ')}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
       {...rest}
     >
-      {icon}
+      {loading ? <Spinner /> : icon}
       {children}
     </button>
   );

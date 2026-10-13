@@ -15,10 +15,7 @@ describe('LoginPage', () => {
   it('renders the fields with the specified labels and placeholders', () => {
     render(<LoginPage />);
 
-    expect(screen.getByLabelText('Email or username')).toHaveAttribute(
-      'placeholder',
-      'Enter your email or username',
-    );
+    expect(screen.getByLabelText('Username')).toHaveAttribute('placeholder', 'Enter your username');
     expect(screen.getByLabelText('Password')).toHaveAttribute('placeholder', 'Enter your password');
     expect(screen.getByLabelText('Password')).toHaveAttribute('type', 'password');
   });
@@ -62,11 +59,11 @@ describe('LoginPage', () => {
   });
 
   it('shows field errors on demand', () => {
-    render(<LoginPage errors={{ identifier: 'Enter your email', password: 'Enter a password' }} />);
-
-    expect(screen.getByLabelText('Email or username')).toHaveAccessibleDescription(
-      'Enter your email',
+    render(
+      <LoginPage errors={{ username: 'Enter your username', password: 'Enter a password' }} />,
     );
+
+    expect(screen.getByLabelText('Username')).toHaveAccessibleDescription('Enter your username');
     expect(screen.getByLabelText('Password')).toHaveAccessibleDescription('Enter a password');
   });
 
@@ -82,7 +79,7 @@ describe('LoginPage', () => {
     ]) {
       expect(screen.getByRole('button', { name })).toBeDisabled();
     }
-    expect(screen.getByLabelText('Email or username')).toBeDisabled();
+    expect(screen.getByLabelText('Username')).toBeDisabled();
     expect(screen.getByRole('checkbox', { name: 'Remember me' })).toBeDisabled();
   });
 
@@ -91,7 +88,7 @@ describe('LoginPage', () => {
     render(<LoginPage />);
 
     const expected = [
-      screen.getByLabelText('Email or username'),
+      screen.getByLabelText('Username'),
       screen.getByLabelText('Password'),
       screen.getByRole('button', { name: 'Show password' }),
       screen.getByRole('checkbox', { name: 'Remember me' }),
@@ -106,9 +103,13 @@ describe('LoginPage', () => {
     }
   });
 
-  it('performs no network request, submission or navigation', async () => {
+  it('signs in through the API only, never by submitting or navigating', async () => {
     const user = userEvent.setup();
-    const fetchSpy = vi.spyOn(globalThis, 'fetch');
+    const fetchSpy = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue(
+        Response.json({ error: { code: 'invalid_credentials' } }, { status: 401 }),
+      );
     const href = window.location.href;
     // jsdom never navigates, so assert the browser's default submit action is cancelled.
     // React's handler runs on the root, before this document-level bubble listener.
@@ -117,20 +118,26 @@ describe('LoginPage', () => {
     document.addEventListener('submit', onSubmit);
     render(<App />);
 
-    await user.type(screen.getByLabelText('Email or username'), 'ada@example.com');
+    await user.type(screen.getByLabelText('Username'), 'ada');
     await user.type(screen.getByLabelText('Password'), 'secret');
-    for (const name of ['Sign in', 'Forgot password?', 'Continue with Microsoft', 'Sign up']) {
+    for (const name of ['Forgot password?', 'Continue with Microsoft', 'Sign up']) {
       await user.click(screen.getByRole('button', { name }));
     }
-    await user.type(screen.getByLabelText('Password'), '{Enter}');
+    expect(fetchSpy).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole('button', { name: 'Sign in' }));
+    await screen.findByRole('alert');
 
     document.removeEventListener('submit', onSubmit);
 
-    expect(submits).toHaveLength(2); // Sign in click and Enter in the password field
-    expect(submits.every((event) => event.defaultPrevented)).toBe(true);
-    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(submits).toHaveLength(1);
+    expect(submits[0]!.defaultPrevented).toBe(true);
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(fetchSpy).toHaveBeenCalledWith(
+      '/api/auth/login',
+      expect.objectContaining({ method: 'POST', body: '{"username":"ada","password":"secret"}' }),
+    );
     expect(window.location.href).toBe(href);
-    expect(screen.getByLabelText('Email or username')).toHaveValue('ada@example.com');
     fetchSpy.mockRestore();
   });
 });

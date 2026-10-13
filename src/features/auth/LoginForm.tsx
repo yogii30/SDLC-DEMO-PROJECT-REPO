@@ -5,8 +5,13 @@ import { PasswordField } from '../../components/PasswordField';
 import { TextField } from '../../components/TextField';
 
 export interface LoginFormErrors {
-  identifier?: string;
+  username?: string;
   password?: string;
+}
+
+export interface LoginValues {
+  username: string;
+  password: string;
 }
 
 export interface LoginFormProps {
@@ -14,6 +19,12 @@ export interface LoginFormProps {
   disabled?: boolean;
   /** Field error messages, shown with the input error style. */
   errors?: LoginFormErrors;
+  /** Shows Sign in's loading state while a sign-in request is in flight. */
+  loading?: boolean;
+  /** A message about the whole form, such as rejected credentials or an unreachable server. */
+  formError?: string;
+  /** Receives the entered values when the form is submitted. */
+  onSubmit?: (values: LoginValues) => void;
 }
 
 const linkClasses =
@@ -21,10 +32,23 @@ const linkClasses =
   'hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500 ' +
   'focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:text-slate-400';
 
-// UI only (SDLC-39): submitting, signing in and every link are intentionally inert.
-const preventSubmit = (event: FormEvent<HTMLFormElement>) => event.preventDefault();
+// Remember me, Forgot password?, Microsoft and Sign up stay inert: out of scope for SDLC-47.
+export function LoginForm({
+  disabled = false,
+  errors = {},
+  loading = false,
+  formError,
+  onSubmit,
+}: LoginFormProps) {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    onSubmit?.({
+      username: String(data.get('username') ?? ''),
+      password: String(data.get('password') ?? ''),
+    });
+  };
 
-export function LoginForm({ disabled = false, errors = {} }: LoginFormProps) {
   return (
     <div className="w-full rounded-card bg-white p-6 shadow-[0_1px_3px_rgb(15_23_42/0.06),0_8px_24px_rgb(15_23_42/0.06)] sm:p-8">
       <div className="mb-6">
@@ -32,15 +56,24 @@ export function LoginForm({ disabled = false, errors = {} }: LoginFormProps) {
         <p className="mt-1 text-sm text-slate-500">Enter your details to access your account.</p>
       </div>
 
-      <form noValidate onSubmit={preventSubmit} aria-label="Sign in" className="space-y-5">
+      <form noValidate onSubmit={handleSubmit} aria-label="Sign in" className="space-y-5">
+        {formError && (
+          <div
+            role="alert"
+            className="rounded-lg border border-red-200 bg-red-50 px-3.5 py-2.5 text-sm text-red-700"
+          >
+            {formError}
+          </div>
+        )}
+
         <TextField
-          id="identifier"
-          name="identifier"
-          label="Email or username"
-          placeholder="Enter your email or username"
+          id="username"
+          name="username"
+          label="Username"
+          placeholder="Enter your username"
           autoComplete="username"
           disabled={disabled}
-          error={errors.identifier}
+          error={errors.username}
         />
 
         <PasswordField
@@ -68,8 +101,8 @@ export function LoginForm({ disabled = false, errors = {} }: LoginFormProps) {
           </button>
         </div>
 
-        <Button type="submit" disabled={disabled}>
-          Sign in
+        <Button type="submit" disabled={disabled} loading={loading}>
+          {loading ? 'Signing in…' : 'Sign in'}
         </Button>
       </form>
 

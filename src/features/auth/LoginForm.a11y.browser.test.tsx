@@ -50,7 +50,7 @@ function focusStyle(el: Element): FocusStyle {
 }
 
 const controls = () => [
-  screen.getByLabelText('Email or username'),
+  screen.getByLabelText('Username'),
   screen.getByLabelText('Password'),
   screen.getByRole('button', { name: 'Show password' }),
   screen.getByRole('checkbox', { name: 'Remember me' }),
@@ -154,7 +154,7 @@ describe('LoginForm accessibility (real browser)', () => {
     const or = screen.getByRole('separator', { name: 'or' }).querySelector('span:nth-child(2)')!;
     expect(contrast(getComputedStyle(or).color, cardBackground)).toBeGreaterThanOrEqual(4.5);
 
-    for (const label of ['Email or username', 'Password']) {
+    for (const label of ['Username', 'Password']) {
       const placeholder = getComputedStyle(screen.getByLabelText(label), '::placeholder').color;
       expect(contrast(placeholder, 'rgb(255, 255, 255)')).toBeGreaterThanOrEqual(4.5);
     }
