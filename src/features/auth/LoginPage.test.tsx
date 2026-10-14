@@ -7,9 +7,9 @@ describe('LoginPage', () => {
   it('renders the branding content', () => {
     render(<LoginPage />);
 
-    expect(screen.getAllByRole('heading', { level: 1, name: 'Welcome back!' })).not.toHaveLength(0);
+    expect(screen.getAllByRole('heading', { level: 1, name: 'Welcome' })).not.toHaveLength(0);
     expect(screen.getAllByText('Sign in to continue to your workspace.')).not.toHaveLength(0);
-    expect(screen.getByRole('region', { name: 'Welcome back!' })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Welcome' })).toBeInTheDocument();
   });
 
   it('renders the fields with the specified labels and placeholders', () => {
