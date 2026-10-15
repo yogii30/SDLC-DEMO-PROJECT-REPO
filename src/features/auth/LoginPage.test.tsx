@@ -7,18 +7,21 @@ describe('LoginPage', () => {
   it('renders the branding content', () => {
     render(<LoginPage />);
 
-    expect(screen.getAllByRole('heading', { level: 1, name: 'Welcome' })).not.toHaveLength(0);
+    expect(screen.getAllByRole('heading', { level: 1, name: 'Welcome back!' })).not.toHaveLength(0);
     expect(screen.getAllByText('Sign in to continue to your workspace.')).not.toHaveLength(0);
-    expect(screen.getByRole('region', { name: 'Welcome' })).toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Welcome back!' })).toBeInTheDocument();
   });
 
-  it('greets with "Welcome" instead of "Welcome back!" (SDLC-43)', () => {
+  it('greets with "Welcome back!" on every sign-in heading (SDLC-48)', () => {
     render(<LoginPage />);
 
-    for (const heading of screen.getAllByRole('heading', { level: 1 })) {
-      expect(heading.textContent?.trim()).toBe('Welcome');
+    // One heading in the desktop brand panel, one in the mobile header.
+    const headings = screen.getAllByRole('heading', { level: 1 });
+    expect(headings).toHaveLength(2);
+    for (const heading of headings) {
+      expect(heading.textContent?.trim()).toBe('Welcome back!');
     }
-    expect(screen.queryByText(/Welcome back/)).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 1, name: 'Welcome' })).not.toBeInTheDocument();
   });
 
   it('renders the fields with the specified labels and placeholders', () => {
