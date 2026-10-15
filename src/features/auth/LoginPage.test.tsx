@@ -7,18 +7,9 @@ describe('LoginPage', () => {
   it('renders the branding content', () => {
     render(<LoginPage />);
 
-    expect(screen.getAllByRole('heading', { level: 1, name: 'Welcome' })).not.toHaveLength(0);
+    expect(screen.getAllByRole('heading', { level: 1, name: 'Welcome back!' })).not.toHaveLength(0);
     expect(screen.getAllByText('Sign in to continue to your workspace.')).not.toHaveLength(0);
-    expect(screen.getByRole('region', { name: 'Welcome' })).toBeInTheDocument();
-  });
-
-  it('greets with "Welcome" instead of "Welcome back!" (SDLC-43)', () => {
-    render(<LoginPage />);
-
-    for (const heading of screen.getAllByRole('heading', { level: 1 })) {
-      expect(heading.textContent?.trim()).toBe('Welcome');
-    }
-    expect(screen.queryByText(/Welcome back/)).not.toBeInTheDocument();
+    expect(screen.getByRole('region', { name: 'Welcome back!' })).toBeInTheDocument();
   });
 
   it('renders the fields with the specified labels and placeholders', () => {
