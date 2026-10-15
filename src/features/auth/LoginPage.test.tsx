@@ -12,6 +12,18 @@ describe('LoginPage', () => {
     expect(screen.getByRole('region', { name: 'Welcome back!' })).toBeInTheDocument();
   });
 
+  it('greets with "Welcome back!" on every sign-in heading (SDLC-48)', () => {
+    render(<LoginPage />);
+
+    // One heading in the desktop brand panel, one in the mobile header.
+    const headings = screen.getAllByRole('heading', { level: 1 });
+    expect(headings).toHaveLength(2);
+    for (const heading of headings) {
+      expect(heading.textContent?.trim()).toBe('Welcome back!');
+    }
+    expect(screen.queryByRole('heading', { level: 1, name: 'Welcome' })).not.toBeInTheDocument();
+  });
+
   it('renders the fields with the specified labels and placeholders', () => {
     render(<LoginPage />);
 
